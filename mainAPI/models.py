@@ -1,16 +1,17 @@
+from operator import mod
 from django.db import models
 from colorfield.fields import ColorField
 from django_countries.fields import CountryField
 
 
-class Jobs(models.Model):
-	name = models.CharField(max_length=250)
-	description = models.TextField()
-	price = models.IntegerField()
-	date = models.DateTimeField()
+# class Jobs(models.Model):
+# 	name = models.CharField(max_length=250)
+# 	description = models.TextField()
+# 	price = models.IntegerField()
+# 	date = models.DateTimeField()
 
-	def __str_(self):
-		return self.name
+# 	def __str_(self):
+# 		return self.name
 
 
 class ResumeColor(models.Model):
@@ -138,6 +139,25 @@ class JobPost(models.Model):
 
 # Adding a company (admin) 
 
+class AddingCompany(models.Model):
+	# Persona information
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
+	phone = models.CharField(max_length=70)
+
+	# Your company
+	company_name = models.CharField(max_length=200)
+	location = models.CharField(max_length=200)
+
+	# About Company
+	company_link = models.CharField(max_length=300)
+	company_phone = models.CharField(max_length=70)
+	about_company = models.TextField()
+
+
+	def __str__(self):
+		return self.first_name + ' ' + self.last_name + ' ' + self.company_name
+
 
 class PersonalInfo(models.Model):
 	first_name = models.CharField(max_length=100)
@@ -168,9 +188,9 @@ class AboutCompany(models.Model):
 		return str(self.about_company)[0:20]
 
 
-class test(models.Model):
-	FIRST_text = models.TextField(null=True)
-	SECOND_text = models.TextField(null=True)
+# class test(models.Model):
+# 	FIRST_text = models.TextField(null=True)
+# 	SECOND_text = models.TextField(null=True)
 
-	def __str__(self):
-		return self.FIRST_text
+# 	def __str__(self):
+# 		return self.FIRST_text

@@ -1,18 +1,18 @@
-from dataclasses import field
-from operator import mod
+from django.views import generic
 from rest_framework import serializers
-from .models import (Jobs, ResumeColor, ResumePersonalInfo, ResumeAddress,
- ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation, 
-  ResumeInterests, JobPost, PersonalInfo, AboutCompany, YourCompany, test)
+# from .models import (Jobs, ResumeColor, ResumePersonalInfo, ResumeAddress,
+#  ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation, 
+#   ResumeInterests, JobPost, PersonalInfo, AboutCompany, YourCompany, test)
+from .models import *
 
 # AboutWork, RequiredSkills, FindFreelancer, 
 
 
-class JobsSerializer(serializers.Serializer):
-	name = serializers.CharField(max_length=250)
-	description = serializers.CharField(max_length=500)
-	price = serializers.IntegerField()
-	date = serializers.DateTimeField()
+# class JobPost(serializers.Serializer):
+# 	name = serializers.CharField(max_length=250)
+# 	description = serializers.CharField(max_length=500)
+# 	price = serializers.IntegerField()
+# 	date = serializers.DateTimeField()
 
 
 
@@ -71,6 +71,13 @@ class ResumeInterestsSerializer(serializers.ModelSerializer):
 
 # Job Post
 
+### For search
+class JobPostSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = JobPost
+		fields = '__all__'
+##########################
+
 class FindFreelancerSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = JobPost
@@ -110,15 +117,19 @@ class AboutCompanySerializer(serializers.ModelSerializer):
 
 
 	
-class testFirstSerializer(serializers.ModelSerializer):
+# class testFirstSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = test
+# 		fields = ['FIRST_text']
+
+
+# class testSecondSerializer(serializers.ModelSerializer):
+# 	class Meta:
+# 		model = test
+# 		fields = ['SECOND_text']
+
+
+class AddingCompanySerializer(serializers.ModelSerializer):
 	class Meta:
-		model = test
-		fields = ['FIRST_text']
-
-
-class testSecondSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = test
-		fields = ['SECOND_text']
-
-
+		model = AddingCompany
+		fields = '__all__'

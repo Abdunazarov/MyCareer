@@ -1,24 +1,25 @@
 from django.contrib import admin
-from .models import (Jobs, ResumeColor, ResumePersonalInfo, ResumeAddress,
- ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation, 
-  ResumeInterests, Hobbies, JobPost, requiredskills, test)
+# from .models import (ResumeColor, ResumePersonalInfo, ResumeAddress,
+#  ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation, 
+#   ResumeInterests, Hobbies, JobPost, requiredskills)
+from .models import *
 
 #  AboutWork, RequiredSkills,
 
 
-@admin.register(Jobs)
-class JobsAdmin(admin.ModelAdmin):
-	list_display = ("name", "description")
+# @admin.register(Jobs)
+# class JobsAdmin(admin.ModelAdmin):
+# 	list_display = ("name", "description")
 
-	# class Meta:
-		# ordering = ("name", "description")
+# 	# class Meta:
+# 		# ordering = ("name", "description")
 
 
 admin.site.register(ResumeColor)
 admin.site.register(ResumePersonalInfo)
 admin.site.register(ResumeAddress)
 admin.site.register(ResumeSkills)
-admin.site.register(test)
+admin.site.register(AddingCompany)
 
 
 @admin.register(ResumeContacts)

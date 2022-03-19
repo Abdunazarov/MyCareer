@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework.filters import SearchFilter
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 from django.core.mail import send_mail
+from rest_framework.permissions import IsAuthenticated
 
 # from .models import (Jobs, ResumeColor, ResumePersonalInfo, ResumeAddress,
 # ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation,
@@ -23,11 +24,20 @@ from rest_framework import viewsets, status
 
 # AboutWork, RequiredSkills, FindFreelancer
 
-class HomePageSearchView(ListAPIView):
-	queryset = Jobs.objects.all()
-	serializer_class = JobsSerializer
-	filter_backends = (DjangoFilterBackend, SearchFilter)
-	search_fields = ('name', 'description')
+class HomePageSearchView(ListCreateAPIView):
+	serializer_class = JobPostSerializer
+	permission_classes = (IsAuthenticated,) 
+	filter_backends = [DjangoFilterBackend, SearchFilter]
+
+	search_fields = ['id', 'skills', 'freelancer_type', 'location']
+
+
+	def perform_create(self, serializer):
+		return serializer.save(owner=self.request.user)
+
+	def get_queryset(self):
+		return JobPost.objects.filter(owner=self.request.user)
+
 
 
 class ResumeColorViewset(viewsets.ModelViewSet):
@@ -77,25 +87,6 @@ class ResumeInterestsViewset(viewsets.ModelViewSet):
 
 
 # Job Post
-
-# @csrf_exempt
-# def testFirstView(request):
-# 	if request.method == 'POST':
-# 		tests = test.objects.all()
-# 		serializer = testFirstSerializer(tests)
-# 		return JsonResponse(serializer.data, safe=False)
-
-# 	elif request.method == 'POST':
-# 		data = JSONParser().parse(request)
-# 		serializer = testFirstSerializer(data=data)
-# 		if serializer.is_valid():
-# 			serializer.save()
-# 			return JsonResponse(serializer.data, status=201)
-# 		return JsonResponse(serializer.errors, status=400)
-
-
-
-
 
 class AboutWorkViewset(viewsets.ModelViewSet):
 	serializer_class = AboutWorkSerializer
@@ -151,3 +142,11 @@ class PersonalInfoViewset(viewsets.ModelViewSet):
 class YourCompanyViewset(viewsets.ModelViewSet):
 	serializer_class = YourCompanySerializer
 	queryset = YourCompany.objects.all()
+
+
+
+class AddingCompanyViewset(viewsets.ModelViewSet):
+	serializer_class = AddingCompanySerializer
+	queryset = AddingCompany.objects.all()
+
+
