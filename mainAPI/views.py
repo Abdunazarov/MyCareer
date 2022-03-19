@@ -1,33 +1,43 @@
 from django.shortcuts import render
-from rest_framework.filters import SearchFilter
-from rest_framework.generics import ListAPIView, ListCreateAPIView
 from django.core.mail import send_mail
 from rest_framework.permissions import IsAuthenticated
-
-# from .models import (Jobs, ResumeColor, ResumePersonalInfo, ResumeAddress,
-# ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation,
-# ResumeInterests, JobPost, AboutCompany, PersonalInfo, YourCompany)
 from django_filters.rest_framework import DjangoFilterBackend
-
-# from .serializers import (JobsSerializer, ResumeColorSerializer, ResumePersonalInfoSerializer,
-#  ResumeAddressSerializer, ResumeSkillsSerializer, ResumeContactsSerializer,
-#   socialmediaSerializer, ResumeExperienceSerializer, ResumeEducationSerializer,
-#    ResumeInterestsSerializer, AboutWorkSerializer, RequiredSkillsSerializer,
-#     FindFreelancerSerializer, PersonalInfoSerializer, AboutCompanySerializer, YourCompanySerializer,
-# 	testFirstSerializer)
-
 from .models import *
 from .serializers import *
 
-from rest_framework import viewsets, status
+from rest_framework import viewsets, generics, filters
 
 
-# AboutWork, RequiredSkills, FindFreelancer
+# Resume Colors
+class ResumeColorsViewset(viewsets.ModelViewSet):
+	queryset = ResumeColors.objects.all()
+	serializer_class = ResumeColorsSerializer
 
-class HomePageSearchView(ListCreateAPIView):
+
+# Resume Section
+class ResumeSectionViewset(viewsets.ModelViewSet):
+	queryset = ResumeSection.objects.all()
+	serializer_class = ResumeSectionSerializer
+
+
+# Job Post
+class JobPostViewset(viewsets.ModelViewSet):
+	queryset = JobPost.objects.all()
+	serializer_class = JobPostSerializer
+
+
+# Adding Company
+class AddingCompanyViewset(viewsets.ModelViewSet):
+	queryset = AddingCompany.objects.all()
+	serializer_class = AddingCompanySerializer
+
+
+# --------------------------------------------------------------------------------------------
+# Home Page Search
+class HomePageSearchView(generics.ListCreateAPIView):
 	serializer_class = JobPostSerializer
 	permission_classes = (IsAuthenticated,) 
-	filter_backends = [DjangoFilterBackend, SearchFilter]
+	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
 	search_fields = ['id', 'skills', 'freelancer_type', 'location']
 
@@ -39,73 +49,7 @@ class HomePageSearchView(ListCreateAPIView):
 		return JobPost.objects.filter(owner=self.request.user)
 
 
-
-class ResumeColorViewset(viewsets.ModelViewSet):
-	queryset = ResumeColor.objects.all()
-	serializer_class = ResumeColorSerializer
-
-
-class ResumePersonalInfoViewset(viewsets.ModelViewSet):
-	queryset = ResumePersonalInfo.objects.all()
-	serializer_class = ResumePersonalInfoSerializer
-
-
-class ResumeAddressViewset(viewsets.ModelViewSet):
-	queryset = ResumeAddress.objects.all()
-	serializer_class = ResumeAddressSerializer
-
-
-class ResumeSkillsViewset(viewsets.ModelViewSet):
-	queryset = ResumeSkills.objects.all()
-	serializer_class = ResumeSkillsSerializer
-
-
-class ResumeContactsViewset(viewsets.ModelViewSet):
-	queryset = ResumeContacts.objects.all()
-	serializer_class = ResumeContactsSerializer
-
-
-class socialmediaViewset(viewsets.ModelViewSet):
-	serializer_class = socialmediaSerializer
-	queryset = socialmedia.objects.all()
-
-
-class ResumeExperienceViewset(viewsets.ModelViewSet):
-	serializer_class = ResumeExperienceSerializer
-	queryset = ResumeExperience.objects.all()
-
-
-class ResumeEducationViewset(viewsets.ModelViewSet):
-	serializer_class = ResumeEducationSerializer
-	queryset = ResumeEducation.objects.all()
-
-
-class ResumeInterestsViewset(viewsets.ModelViewSet):
-	serializer_class = ResumeInterestsSerializer
-	queryset = ResumeInterests.objects.all()
-
-
-
-# Job Post
-
-class AboutWorkViewset(viewsets.ModelViewSet):
-	serializer_class = AboutWorkSerializer
-	queryset = JobPost.objects.all()
-
-
-
-class RequiredSkillsViewset(viewsets.ModelViewSet):
-	serializer_class = RequiredSkillsSerializer
-	queryset = JobPost.objects.all()
-
-
-class FindFreelancerViewset(viewsets.ModelViewSet):
-	serializer_class = FindFreelancerSerializer
-	queryset = JobPost.objects.all()
-
-
-# Contact Uss
-
+# Contact Us
 def contact(request):
 	if request.method == 'POST':
 		name = request.POST.get('name')
@@ -125,28 +69,5 @@ def contact(request):
 
 	return render(request, 'mainAPI/contact.html', {})
 
-
-# Adding a Company (admin)
-
-class AboutCompanyViewset(viewsets.ModelViewSet):
-	serializer_class = AboutCompanySerializer
-	queryset = AboutCompany.objects.all()
-
-
-
-class PersonalInfoViewset(viewsets.ModelViewSet):
-	serializer_class = PersonalInfoSerializer
-	queryset = PersonalInfo.objects.all()
-
-
-class YourCompanyViewset(viewsets.ModelViewSet):
-	serializer_class = YourCompanySerializer
-	queryset = YourCompany.objects.all()
-
-
-
-class AddingCompanyViewset(viewsets.ModelViewSet):
-	serializer_class = AddingCompanySerializer
-	queryset = AddingCompany.objects.all()
 
 

@@ -1,46 +1,43 @@
 from django.contrib import admin
-# from .models import (ResumeColor, ResumePersonalInfo, ResumeAddress,
-#  ResumeSkills, ResumeContacts, socialmedia, ResumeExperience, ResumeEducation, 
-#   ResumeInterests, Hobbies, JobPost, requiredskills)
 from .models import *
 
-#  AboutWork, RequiredSkills,
+
+# Resume Section (Admin)
+@admin.register(ResumeSection)
+class ResumeSectionAdmin(admin.ModelAdmin):
+	list_display = ('first_name', 'last_name', 'email', 'region')
 
 
-# @admin.register(Jobs)
-# class JobsAdmin(admin.ModelAdmin):
-# 	list_display = ("name", "description")
-
-# 	# class Meta:
-# 		# ordering = ("name", "description")
+# Job Post (Admin)
+@admin.register(JobPost)
+class JobPostAdmin(admin.ModelAdmin):
+	list_display = ('freelancer_type', 'location', 'price')
 
 
-admin.site.register(ResumeColor)
-admin.site.register(ResumePersonalInfo)
-admin.site.register(ResumeAddress)
-admin.site.register(ResumeSkills)
-admin.site.register(AddingCompany)
+# Adding Company (Admin)
+@admin.register(AddingCompany)
+class AddingCompanyAdmin(admin.ModelAdmin):
+	list_display = ('first_name', 'last_name', 'company_name', 'location')
 
 
-@admin.register(ResumeContacts)
-class ContactAdmin(admin.ModelAdmin):
-	list_display = ("website_link",)
-
-	search_fields = ["social_media__platform_name",]  # Foreignkey should be filtered as it is!
-
+# Other admin models
 admin.site.register(socialmedia)
-
-@admin.register(ResumeExperience)
-class ResumeExperienceAdmin(admin.ModelAdmin):
-	list_display = ("company_name", "role")
-	# title = ["role",]  # order in which fileds are shown
-
-admin.site.register(ResumeEducation)
-admin.site.register(ResumeInterests)
 admin.site.register(Hobbies)
-# admin.site.register(AboutWork)
-# admin.site.register(RequiredSkills)
-admin.site.register(JobPost)
 admin.site.register(requiredskills)
+admin.site.register(ResumeColors)
+
+
+
+# class SocialMediaAdmin(admin.ModelAdmin):
+# 	def get_model_perms(self, request):
+# 		return {}
+
+# admin.site.register(socialmedia, SocialMediaAdmin)
+
+
+# class ContactAdmin(admin.ModelAdmin):
+# 	list_display = ("website_link",)
+# 	search_fields = ["social_media__platform_name",]  # Foreignkey should be filtered as it is!
+# 	title = ["role",]  # order in which fileds are shown
 
 

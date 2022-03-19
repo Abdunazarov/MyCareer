@@ -10,7 +10,13 @@ import jwt, datetime
 
 
 
+
+
 class RegisterView(APIView):
+    """
+    User registration
+    """
+    allowed_methods = ['POST']
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
