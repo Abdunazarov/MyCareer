@@ -71,3 +71,9 @@ def contact(request):
 
 
 
+# def contactView(request):
+# 	if request.method == 'POST':
+
+
+
+

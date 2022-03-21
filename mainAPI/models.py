@@ -1,4 +1,5 @@
 from operator import mod
+from statistics import mode
 from tabnanny import verbose
 from django.db import models
 from colorfield.fields import ColorField
@@ -158,3 +159,15 @@ class AddingCompany(models.Model):
 	class Meta:
 		verbose_name = 'Company'
 		verbose_name_plural = 'Added Companies'
+
+
+
+
+class sending_email(models.Model):
+	name = models.CharField(max_length=250)
+	email = models.EmailField()
+	message = models.TextField()
+
+	def __str__(self):
+		return self.email
+	
