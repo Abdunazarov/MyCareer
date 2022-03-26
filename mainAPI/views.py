@@ -16,20 +16,32 @@ from django.views import View
 from django.template.loader import get_template
 from . utils import render_to_pdf 
 
+obj = ResumeSection.objects.get(id=1)
+
 data = {
-	"invoice_id": 123,
-	"customer_name": "John Cooper",
-	"amount": 1399.99,
-	"today": "Today",
+	'first_name': obj.first_name,
+	'last_name': obj.last_name,
+	'email': obj.email,
+	'country': obj.coutry,
+	'street': obj.street,
+
 }
 
 class GeneratePDF(View):
 
-	def get(self, request, *args, **kargs):
+	def get(self, request):
 		pdf = render_to_pdf('mainAPI/resume_pdf.html', data)
+
+		# user = self.request.user.body
+		# print(user)
+		# print(ResumeSection.objects.get(email=user))
 
 		# save pdf to database
 		return HttpResponse(pdf, content_type='application/pdf')
+
+
+
+
 
 
 
