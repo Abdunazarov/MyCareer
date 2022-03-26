@@ -171,3 +171,9 @@ class sending_email(models.Model):
 	def __str__(self):
 		return self.email
 	
+
+class PDF(models.Model):
+	file = models.FileField()
+
+	def __str__(self):
+		return str(self.file)

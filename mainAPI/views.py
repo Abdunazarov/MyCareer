@@ -1,11 +1,52 @@
+from tempfile import gettempdir
 from django.shortcuts import render
 from django.core.mail import send_mail
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, generics, filters
 from .models import *
 from .serializers import *
 
-from rest_framework import viewsets, generics, filters
+
+from datetime import datetime
+from django.http import HttpResponse
+from django.views import View
+
+
+from django.template.loader import get_template
+from . utils import render_to_pdf 
+
+data = {
+	"invoice_id": 123,
+	"customer_name": "John Cooper",
+	"amount": 1399.99,
+	"today": "Today",
+}
+
+class GeneratePDF(View):
+
+	def get(self, request, *args, **kargs):
+		pdf = render_to_pdf('mainAPI/resume_pdf.html', data)
+
+		# save pdf to database
+		return HttpResponse(pdf, content_type='application/pdf')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Resume Colors
