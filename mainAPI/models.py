@@ -4,6 +4,7 @@ from tabnanny import verbose
 from django.db import models
 from colorfield.fields import ColorField
 from django_countries.fields import CountryField
+from django.conf import settings
 
 
 # Resume Colors
@@ -27,12 +28,12 @@ class ResumeColors(models.Model):
 class ResumeSection(models.Model):
 
 	# Resume Personal Information
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
 	photo = models.ImageField(blank=True)
 	first_name = models.CharField(max_length=250)
 	last_name = models.CharField(max_length=250)
 	email = models.EmailField()
 	phone = models.CharField(max_length=20)
-	password = models.CharField(max_length=20)
 
 	# Resume Address
 	coutry = CountryField()
