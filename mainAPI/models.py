@@ -44,7 +44,6 @@ class ResumeSection(models.Model):
 
 	# Resume Skills
 	skills_select = models.ManyToManyField('requiredskills', related_name='resumeSkills')
-	your_skills = models.ManyToManyField('requiredskills', related_name='resumeYourSkills')
 	language = models.CharField(max_length=70)
 	about_you = models.TextField()
 
@@ -68,7 +67,7 @@ class ResumeSection(models.Model):
 
 
 	def __str__(self):
-		return self.first_name + ' ' + self.last_name + '-' + self.email
+		return self.user.name
 
 	class Meta:
 		verbose_name = 'Resume'

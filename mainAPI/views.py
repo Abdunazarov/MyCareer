@@ -1,4 +1,3 @@
-from tempfile import gettempdir
 from django.shortcuts import render
 from django.core.mail import send_mail
 from rest_framework.permissions import IsAuthenticated
@@ -6,59 +5,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics, filters
 from .models import *
 from .serializers import *
-
-
-from datetime import datetime
-from django.http import HttpResponse
-from django.views import View
-
-
-from django.template.loader import get_template
-from . utils import render_to_pdf 
-
-# obj = ResumeSection.objects.get(id=1)
-
-# data = {
-# 	'first_name': obj.first_name,
-# 	'last_name': obj.last_name,
-# 	'email': obj.email,
-# 	'country': obj.coutry,
-# 	'street': obj.street,
-
-# }
-
-class GeneratePDF(View):
-
-	# def get(self, request):
-	# 	pdf = render_to_pdf('mainAPI/resume_pdf.html', data)
-
-	# 	# user = self.request.user.body
-	# 	# print(user)
-	# 	# print(ResumeSection.objects.get(email=user))
-
-	# 	# save pdf to database
-	# 	return HttpResponse(pdf, content_type='application/pdf')
-	pass
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

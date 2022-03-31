@@ -17,6 +17,5 @@ router.register('AddingCompany', AddingCompanyViewset)
 urlpatterns = [
     path('', include(router.urls)),
     path("contact/", contact, name="contact"), 
-    path('pdf/', GeneratePDF.as_view(), name='pdf')
 
 ]
