@@ -24,7 +24,6 @@ class AddingCompanyAdmin(admin.ModelAdmin):
 admin.site.register(socialmedia)
 admin.site.register(Hobbies)
 admin.site.register(requiredskills)
-admin.site.register(ResumeColors)
 
 
 

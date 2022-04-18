@@ -5,13 +5,6 @@ from .models import *
 
 # foreign keylarga serializer chiqariladimi
 
-# Resume Colors
-class ResumeColorsSerializer(serializers.ModelSerializer):
-	class Meta:
-		model = ResumeColors
-		fields = '__all__'
-
-
 # Resume
 class ResumeSectionSerializer(serializers.ModelSerializer):
 	class Meta:

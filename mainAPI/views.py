@@ -3,15 +3,9 @@ from django.core.mail import send_mail
 from rest_framework.permissions import IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics, filters
+from rest_framework.response import Response
 from .models import *
 from .serializers import *
-
-
-
-# Resume Colors
-class ResumeColorsViewset(viewsets.ModelViewSet):
-	queryset = ResumeColors.objects.all()
-	serializer_class = ResumeColorsSerializer
 
 
 # Resume Section
@@ -19,11 +13,20 @@ class ResumeSectionViewset(viewsets.ModelViewSet):
 	queryset = ResumeSection.objects.all()
 	serializer_class = ResumeSectionSerializer
 
+	# Search
+	filter_backends = [DjangoFilterBackend]
+	filterset_fields = ['id', 'first_name', 'last_name', 'skills_select']
+
 
 # Job Post
 class JobPostViewset(viewsets.ModelViewSet):
 	queryset = JobPost.objects.all()
 	serializer_class = JobPostSerializer
+
+	# Job search 
+	# permission_classes = [IsAuthenticated]
+	filter_backends = [DjangoFilterBackend]
+	filterset_fields = ['id', 'skills', 'freelancer_type', 'location']
 
 
 # Adding Company
@@ -34,19 +37,23 @@ class AddingCompanyViewset(viewsets.ModelViewSet):
 
 # --------------------------------------------------------------------------------------------
 # Home Page Search
-class HomePageSearchView(generics.ListCreateAPIView):
-	serializer_class = JobPostSerializer
-	permission_classes = (IsAuthenticated,) 
-	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+# class HomePageSearchView(generics.ListCreateAPIView):
+# 	queryset = JobPost.objects.all()
+# 	serializer_class = JobPostSerializer
+# 	permission_classes = (IsAuthenticated,) 
+# 	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
 
-	search_fields = ['id', 'skills', 'freelancer_type', 'location']
+# 	search_fields = ['id', 'skills', 'freelancer_type', 'location']
 
 
-	def perform_create(self, serializer):
-		return serializer.save(owner=self.request.user)
+# 	# def perform_create(self, serializer):
+# 	# 	return serializer.save(owner=self.request.user)
 
-	def get_queryset(self):
-		return JobPost.objects.filter(owner=self.request.user)
+# 	def get_queryset(self):
+# 		# return JobPost.objects.filter(owner=self.request.user)
+# 		queryset = self.get_queryset()
+# 		serializer = JobPostSerializer(queryset, many=True)
+# 		return Response(serializer.data)
 
 
 # Contact Us
@@ -68,11 +75,6 @@ def contact(request):
 		send_mail('Contact a Client', message, data['email'], ['abdunazarovdior@gmail.com'], fail_silently=False)
 
 	return render(request, 'mainAPI/contact.html', {})
-
-
-
-# def contactView(request):
-# 	if request.method == 'POST':
 
 
 

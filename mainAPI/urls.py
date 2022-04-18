@@ -7,7 +7,6 @@ from .views import *
 router = routers.DefaultRouter()
 
 
-router.register('ResumeColors', ResumeColorsViewset)
 router.register('ResumeSection', ResumeSectionViewset)
 router.register('JobPost', JobPostViewset)
 router.register('AddingCompany', AddingCompanyViewset)

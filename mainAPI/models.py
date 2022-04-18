@@ -7,25 +7,19 @@ from django_countries.fields import CountryField
 from django.conf import settings
 
 
-# Resume Colors
-class ResumeColors(models.Model):
-	color1 = ColorField()
-	color2 = ColorField()
-	color3 = ColorField()
-	color4 = ColorField()
-	color5 = ColorField()
-	color6 = ColorField()
-
-	def __str__(self):
-		return 'color'
-
-	class Meta:
-		verbose_name = 'Color'
-		verbose_name_plural = 'Colors'
+TEMPLATE_TYPES = [
+    ('1', 'Template 1'),
+    ('2', 'Template 2'),
+    ('3', 'Template 3'),
+    ('4', 'Template 4'),
+    ('5', 'Template 5'),
+]
 
 # Resume Section
 
 class ResumeSection(models.Model):
+	# Resume Template Selection
+	template_type = models.CharField(max_length=1, choices=TEMPLATE_TYPES, default='1')
 
 	# Resume Personal Information
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, on_delete=models.CASCADE)
