@@ -18,7 +18,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password=None):
         if email is None:
-            raise TypeError('User should have an emails')
+            raise TypeError('User should have an email')
 
         user = self.create_user(email, password)
         user.is_superuser = True

@@ -61,7 +61,7 @@ class ResumeSection(models.Model):
 
 
 	def __str__(self):
-		return self.user.name
+		return self.first_name
 
 	class Meta:
 		verbose_name = 'Resume'
