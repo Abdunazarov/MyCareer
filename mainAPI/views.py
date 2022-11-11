@@ -36,25 +36,6 @@ class AddingCompanyViewset(viewsets.ModelViewSet):
 
 
 # --------------------------------------------------------------------------------------------
-# Home Page Search
-# class HomePageSearchView(generics.ListCreateAPIView):
-# 	queryset = JobPost.objects.all()
-# 	serializer_class = JobPostSerializer
-# 	permission_classes = (IsAuthenticated,) 
-# 	filter_backends = [DjangoFilterBackend, filters.SearchFilter]
-
-# 	search_fields = ['id', 'skills', 'freelancer_type', 'location']
-
-
-# 	# def perform_create(self, serializer):
-# 	# 	return serializer.save(owner=self.request.user)
-
-# 	def get_queryset(self):
-# 		# return JobPost.objects.filter(owner=self.request.user)
-# 		queryset = self.get_queryset()
-# 		serializer = JobPostSerializer(queryset, many=True)
-# 		return Response(serializer.data)
-
 
 # Contact Us
 def contact(request):
