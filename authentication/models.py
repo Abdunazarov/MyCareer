@@ -1,4 +1,3 @@
-import imp
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -27,11 +26,21 @@ class UserManager(BaseUserManager):
         return user
 
 
+ROLES = [
+    ('Freelancer', 'freelancer'),
+    ('Company', 'company')
+]
+
+
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, db_index=True)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    role = models.CharField(max_length=15, choices=ROLES, default='Freelancer')
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -52,3 +61,15 @@ class User(AbstractBaseUser, PermissionsMixin):
             'access': str(refresh.access_token)
         }
 
+
+
+# class Freelancer(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+#     # 1
+#     first_name = models.CharField(max_length=150)
+#     last_name = models.CharField(max_length=150)
+#     email = models.EmailField()
+#     phone_number = models.CharField(max_length=20)
+
+#     # 2

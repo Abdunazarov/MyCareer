@@ -1,13 +1,19 @@
-from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+import os
+
+password = os.environ.get('MY_PASS')
+email = os.environ.get('MY_EMAIL')
 
 
 class Util:
 	@staticmethod
 	def send_email(data):
 
-		email = EmailMessage(
+		send_mail(
 			subject=data['email_subject'], 
-			body=data['email_body'],
-			to=[data['to_email'],]
+			html_message=data['email_body'],
+			message='',
+			recipient_list=[data['to_email']],
+			from_email=f"MyCareer {email}",
+			auth_password='snktgjbsikpsvyal'
 			)
-		email.send()

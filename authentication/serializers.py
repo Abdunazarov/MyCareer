@@ -30,39 +30,28 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 
-class RegisterSerializer(serializers.ModelSerializer):
-    # password = serializers.CharField(
-    #     max_length=68, min_length=6, write_only=True)
 
-    # default_error_messages = {
-    #     'email': 'Incorrect email'}
 
-    # class Meta:
-    #     model = User
-    #     fields = ['email', 'password']
+class RegisterSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    role = serializers.CharField()
+    password = serializers.CharField(min_length=6, write_only=True)
+    password2 = serializers.CharField(write_only=True)
 
-    # # def validate(self, attrs):
-    # #     email = attrs.get('email', '')
 
-    # #     if not email.isalnum():
-    # #         raise serializers.ValidationError(
-    # #             self.default_error_messages)
-    # #     return attrs
+    def create(self, validated_data):
+        password = validated_data['password']
 
-    # def create(self, validated_data):
-    #     return User.objects.create_user(**validated_data)
+        if not password == validated_data['password2']:
+            raise serializers.ValidationError({'Error': 'Passwords must match'})
 
-    class Meta:
-        model = User
-        fields = ['email',]
-
-        def create(self, validated_data):
-            password = validated_data.pop('password', None)
-            instance = self.Meta.model(**validated_data)
-            if password is not None:
-                instance.set_password(password)
-            instance.save()
-            return instance
+        instance = User.objects.create(
+            email=validated_data['email'],
+            role=validated_data['role']
+        )
+        instance.set_password(password)
+        instance.save()
+        return instance
 
 
 class EmailVerificationSerializer(serializers.ModelSerializer):
@@ -77,17 +66,8 @@ class EmailVerificationSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=255, min_length=3)
     password = serializers.CharField(max_length=68, min_length=6, write_only=True)
-    # tokens = serializers.SerializerMethodField()
     tokens = serializers.CharField(max_length=68, min_length=6, read_only=True)
-    
 
-    # def get_tokens(self, obj):
-    #     user = User.objects.get(email=obj['email'])
-
-    #     return {
-    #         'refresh': user.tokens()['refresh'],
-    #         'access': user.tokens()['access']
-    #     }
 
     class Meta:
         model = User
@@ -110,9 +90,56 @@ class LoginSerializer(serializers.ModelSerializer):
         if not user.is_verified:
             raise AuthenticationFailed('Email is not verified')
 
+
         return {
             'email': user.email,
             'tokens': user.tokens
         }
 
-        return super().validate(attrs)
+
+from .utils import Util
+import string
+import random
+
+class SendCodeSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def send_code(self, request_data):
+        try:
+            user = User.objects.get(email=request_data['email'])
+        except User.DoesNotExist:
+            return serializers.ValidationError({'Error': 'This user is not registered'})
+
+        
+        code = ''.join(random.choices(string.ascii_letters, k=10))
+        data = {
+            'email_subject': 'Password Reset Code',
+            'email_body': f'''<h2>Please enter the following 10-digit code in order to reset your password. Code: <h1 style="color: red">{code}</h1></h2>''',
+            'to_email': request_data['email']
+        }
+
+        Util.send_email(data)
+        return code
+        
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    reset_code = serializers.CharField(max_length=10)
+    new_password = serializers.CharField(min_length=6)
+    new_password2 = serializers.CharField(min_length=6)
+
+    def save(self, request_data, email, code):
+        user = User.objects.get(email=email)
+        new_password = request_data['new_password']
+        new_password2 = request_data['new_password2']
+
+        if not code == request_data['reset_code']:
+            raise serializers.ValidationError({'Error': 'Reset code is not valid or incorrect'})
+
+        if not new_password == new_password2:
+            raise serializers.ValidationError({'Error': 'Passwords do not match '})
+        
+
+        
+        user.set_password(new_password)
+        user.save()

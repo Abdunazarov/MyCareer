@@ -8,7 +8,7 @@ from drf_yasg import openapi
 # swagger config
 schema_view = get_schema_view(
    openapi.Info(
-      title="Web API for MyCareer project",
+      title="APIs for My Career",
       default_version='v1',
       contact=openapi.Contact(email="abdunazarovdior@gmail.com"),
    ),

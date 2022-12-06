@@ -5,7 +5,7 @@ from .models import *
 # Resume Section (Admin)
 @admin.register(ResumeSection)
 class ResumeSectionAdmin(admin.ModelAdmin):
-	list_display = ('first_name', 'last_name', 'email', 'region')
+	list_display = ('first_name', 'last_name', 'email', 'country')
 
 
 # Job Post (Admin)
@@ -22,21 +22,20 @@ class AddingCompanyAdmin(admin.ModelAdmin):
 
 # Other admin models
 admin.site.register(socialmedia)
-admin.site.register(Hobbies)
+admin.site.register(hobbies)
 admin.site.register(requiredskills)
+admin.site.register(language)
+admin.site.register(education)
+admin.site.register(experience)
 
 
 
-# class SocialMediaAdmin(admin.ModelAdmin):
-# 	def get_model_perms(self, request):
-# 		return {}
-
-# admin.site.register(socialmedia, SocialMediaAdmin)
 
 
-# class ContactAdmin(admin.ModelAdmin):
-# 	list_display = ("website_link",)
+
+
+
+
 # 	search_fields = ["social_media__platform_name",]  # Foreignkey should be filtered as it is!
-# 	title = ["role",]  # order in which fileds are shown
 
 

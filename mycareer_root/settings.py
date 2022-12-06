@@ -94,7 +94,8 @@ SWAGGER_SETTINGS = {
             'type': 'basic'
         }
     },         
-      'JSON_EDITOR': True,       
+      'JSON_EDITOR': True,
+       
 }
 
 
@@ -131,6 +132,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=60)
+}
 
 
 # Internationalization
@@ -171,10 +179,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_USER = 'diyorttest@gmail.com'
-# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-EMAIL_HOST_PASSWORD = 'DiyorTest2003'
+EMAIL_HOST_USER = os.environ.get('MY_EMAIL')
+EMAIL_HOST_PASSWORD = 'snktgjbsikpsvyal'
+EMAIL_HOST_PASSWORD = os.environ.get('MY_PASS')
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
